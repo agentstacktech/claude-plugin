@@ -6,5 +6,6 @@
     "name": "AgentStack"
   },
   "license": "MIT",
-  "keywords": ["8dna", "rules-engine", "payments", "mcp", "backend", "buffs", "projects", "ecosystem", "agentstack"]
+  "keywords": ["8dna", "rules-engine", "payments", "mcp", "backend", "buffs", "projects", "ecosystem", "agentstack"],
+  "repository": "https://github.com/agentstacktech/claude-plugin"
 }

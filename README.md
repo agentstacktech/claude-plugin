@@ -64,6 +64,7 @@ To load the plugin from the repo without installing: `claude --plugin-dir ./prov
 
 ## Documentation
 
+- **This plugin:** [github.com/agentstacktech/claude-plugin](https://github.com/agentstacktech/claude-plugin)
 - **Quick Start:** [MCP_QUICKSTART.md](MCP_QUICKSTART.md) — API key and MCP setup in a few steps.
 - **Full MCP tool list:** [MCP_SERVER_CAPABILITIES](https://github.com/agentstack/agentstack/blob/main/docs/MCP_SERVER_CAPABILITIES.md) in the AgentStack repo.
 - **Plugins index (Cursor, Claude, GPT, VS Code):** [docs/plugins/README.md](https://github.com/agentstack/agentstack/blob/main/docs/plugins/README.md).
