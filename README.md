@@ -13,8 +13,10 @@ JSON-based data store (8DNA: JSON+ with built-in variants, e.g. A/B tests) and s
 
 ## Quick Start
 
+**Flow:** Create an anonymous project (no account) → get API key → add key in Claude Code → use 60+ tools in chat. See [MCP_QUICKSTART.md](MCP_QUICKSTART.md).
+
 1. **Get an API key**  
-   Create an anonymous project (no signup) or use your existing project key. See [MCP_QUICKSTART.md](MCP_QUICKSTART.md).
+   Create an anonymous project (no signup) via curl or use your existing project key. See [MCP_QUICKSTART.md](MCP_QUICKSTART.md).
 
 2. **Add MCP in Claude Code**  
    Run once (replace with your API key):
