@@ -28,6 +28,22 @@ JSON-based data store (8DNA: JSON+ with built-in variants, e.g. A/B tests) and s
 3. **Use in chat**  
    Ask Claude Code to create a project, list projects, get stats, or use other AgentStack tools. The agent will use the MCP tools automatically.
 
+## What you can do
+
+Once MCP is connected, use 60+ tools from chat. Example prompts by domain:
+
+| Domain | Example prompts |
+|--------|-----------------|
+| **Projects** | "List my projects", "Get stats for my project", "Create a project named Test" |
+| **8DNA / Data** | "Store project data at key config.theme", "Read user data" |
+| **Rules Engine** | "Create a rule when user signs up", "List logic rules" |
+| **Buffs** | "Give user a 7-day trial", "List active buffs" |
+| **Payments** | "Create a payment", "Get wallet balance" |
+| **Auth** | "Get my profile", "Quick auth with email" |
+| **Scheduler, Analytics, Webhooks, Notifications, Wallets** | "Schedule a task", "Get analytics", "List webhooks" |
+
+**Full tool list and parameters:** [MCP_SERVER_CAPABILITIES](https://github.com/agentstacktech/AgentStack/blob/main/docs/MCP_SERVER_CAPABILITIES.md). **When to use which tool:** [CONTEXT_FOR_AI](https://github.com/agentstacktech/AgentStack/blob/main/docs/plugins/CONTEXT_FOR_AI.md) in the AgentStack repo.
+
 ## AgentStack vs “just a database”
 
 | Capability | AgentStack | Typical DB-only (e.g. Supabase-style) |
@@ -68,8 +84,14 @@ To load the plugin from the repo without installing: `claude --plugin-dir ./prov
 
 - **This plugin:** [github.com/agentstacktech/claude-plugin](https://github.com/agentstacktech/claude-plugin)
 - **Quick Start:** [MCP_QUICKSTART.md](MCP_QUICKSTART.md) — API key and MCP setup in a few steps.
-- **Full MCP tool list:** [MCP_SERVER_CAPABILITIES](https://github.com/agentstack/agentstack/blob/main/docs/MCP_SERVER_CAPABILITIES.md) in the AgentStack repo.
-- **Plugins index (Cursor, Claude, GPT, VS Code):** [docs/plugins/README.md](https://github.com/agentstack/agentstack/blob/main/docs/plugins/README.md).
+- **Full MCP tool list:** [MCP_SERVER_CAPABILITIES](https://github.com/agentstacktech/AgentStack/blob/main/docs/MCP_SERVER_CAPABILITIES.md) in the AgentStack repo.
+- **Plugins index (Cursor, Claude, GPT, VS Code):** [docs/plugins/README.md](https://github.com/agentstacktech/AgentStack/blob/main/docs/plugins/README.md).
+
+## Links
+
+- **AgentStack:** [agentstack.tech](https://agentstack.tech)
+- **LinkedIn:** [linkedin.com/company/agentstacktech](https://www.linkedin.com/company/agentstacktech/)
+- **GitHub:** [github.com/agentstacktech](https://github.com/agentstacktech)
 
 *For maintainers:* [TESTING_AND_CAPABILITIES.md](TESTING_AND_CAPABILITIES.md).
 
