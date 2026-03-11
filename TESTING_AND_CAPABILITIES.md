@@ -1,102 +1,102 @@
-# Проверка плагина AgentStack (Claude Code) и его возможности
+# AgentStack plugin (Claude Code) — testing and capabilities
 
-## Как проверить, что плагин работает
+## How to verify the plugin works
 
-### 1. Установка плагина
+### 1. Install the plugin
 
-**Вариант A: из marketplace (после публикации)**  
-- Claude Code → Plugin manager / Discover → найти "AgentStack" → Install.
+**Option A: from marketplace (after publish)**  
+- Claude Code → Plugin manager / Discover → search "AgentStack" → Install.
 
-**Вариант B: локально (до публикации)**  
-- Запуск с указанием директории плагина:
+**Option B: locally (before publish)**  
+- Run with plugin directory:
   ```bash
   claude --plugin-dir ./provided_plugins/claude-plugin
   ```
-  Либо скопировать плагин в каталог, откуда Claude Code подхватывает плагины (см. [Claude Code — Plugins](https://code.claude.com/docs/en/plugins)).
+  Or copy the plugin to the directory Claude Code loads plugins from (see [Claude Code — Plugins](https://code.claude.com/docs/en/plugins)).
 
-### 2. Подключение MCP (обязательно для вызова инструментов)
+### 2. MCP connection (required for calling tools)
 
-Плагин даёт Skills, но **вызов проектов, логики, баффов и т.д. идёт через MCP**. Без настроенного MCP инструменты вызываться не будут.
+The plugin provides Skills, but **calls to projects, logic, buffs, etc. go through MCP**. Without MCP configured, tools will not be called.
 
-1. **Получить API key**  
-   - Через curl (анонимный проект):
+1. **Get an API key**  
+   - Via curl (anonymous project):
      ```bash
      curl -X POST https://agentstack.tech/mcp/tools/projects.create_project_anonymous \
        -H "Content-Type: application/json" \
        -d '{"tool": "projects.create_project_anonymous", "params": {"name": "Test"}}'
      ```
-   - Из ответа взять `project_api_key` или `user_api_key`.
+   - From the response take `project_api_key` or `user_api_key`.
 
-2. **Добавить MCP-сервер в Claude Code**  
+2. **Add MCP server in Claude Code**  
    ```bash
    claude mcp add --transport http agentstack https://agentstack.tech/mcp --header "X-API-Key: YOUR_KEY"
    ```
 
-3. При необходимости перезапустить Claude Code.
+3. Restart Claude Code if needed.
 
-Подробно: [MCP_QUICKSTART.md](MCP_QUICKSTART.md).
+Details: [MCP_QUICKSTART.md](MCP_QUICKSTART.md).
 
-### 3. Проверка в чате
+### 3. Testing in chat
 
-В чате Claude Code попросите агента:
+In Claude Code chat ask the agent:
 
-- "Создай проект в AgentStack с названием Test Project"  
-  → Ожидается вызов `projects.create_project_anonymous` (или `projects.create_project` при наличии авторизации).
-- "Покажи список моих проектов в AgentStack"  
-  → Ожидается `projects.get_projects`.
-- "Дай статистику по проекту &lt;project_id&gt;"  
-  → Ожидается `projects.get_stats`.
+- "Create a project in AgentStack named Test Project"  
+  → Expected: call to `projects.create_project_anonymous` (or `projects.create_project` when authenticated).
+- "Show my AgentStack projects"  
+  → Expected: `projects.get_projects`.
+- "Get stats for project &lt;project_id&gt;"  
+  → Expected: `projects.get_stats`.
 
-Если агент вызывает MCP tools и возвращает осмысленный ответ — плагин и MCP работают.
+If the agent calls MCP tools and returns a sensible answer — the plugin and MCP are working.
 
-### 4. Проверка Skills
+### 4. Checking Skills
 
-- **Skills** подхватываются Claude Code и доступны под namespace плагина (например `/agentstack:agentstack-8dna`, `/agentstack:agentstack-projects`, `/agentstack:agentstack-rules-engine`). Выполните `/help` чтобы увидеть список. Агент использует их по контексту задачи (8DNA, проекты, Rules Engine).
+- **Skills** are picked up by Claude Code and available under the plugin namespace (e.g. `/agentstack:agentstack-8dna`, `/agentstack:agentstack-projects`, `/agentstack:agentstack-rules-engine`). Run `/help` to see the list. The agent uses them by task context (8DNA, projects, Rules Engine).
 
-### 5. Типичные проблемы
+### 5. Common issues
 
-| Симптом | Что проверить |
+| Symptom | What to check |
 |--------|----------------|
-| Агент не вызывает MCP | MCP добавлен через `claude mcp add`, указан верный URL и заголовок `X-API-Key`, Claude Code перезапущен при необходимости. |
-| 401 / 403 при вызове | Ключ валидный, не истёк; для части операций нужна подписка (например, Professional для add_user). |
-| "Tool not found" | Имя tool совпадает с документацией (например, `projects.create_project_anonymous`). Проверить список: `GET https://agentstack.tech/mcp/tools` (с заголовком `X-API-Key`). |
-| Skills не видны | Плагин загружен (`--plugin-dir` или установлен из marketplace). Проверить `/help` и namespace (например `agentstack:agentstack-8dna`). |
+| Agent does not call MCP | MCP added via `claude mcp add`, correct URL and `X-API-Key` header, Claude Code restarted if needed. |
+| 401 / 403 on call | Key is valid, not expired; some operations require a subscription (e.g. Professional for add_user). |
+| "Tool not found" | Tool name matches documentation (e.g. `projects.create_project_anonymous`). Check list: `GET https://agentstack.tech/mcp/tools` (with `X-API-Key` header). |
+| Skills not visible | Plugin is loaded (`--plugin-dir` or installed from marketplace). Check `/help` and namespace (e.g. `agentstack:agentstack-8dna`). |
 
 ---
 
-## Возможности плагина
+## Plugin capabilities
 
-### Что входит в плагин
+### What the plugin includes
 
-| Компонент | Назначение |
+| Component | Purpose |
 |-----------|------------|
-| **Манифест** (`.claude-plugin/plugin.json`) | Имя, описание, ключевые слова для Claude Code и marketplace. |
-| **Skills** (3 штуки) | Обучают агента, *когда* и *как* использовать AgentStack: 8DNA, проекты, Rules Engine. |
-| **Документация** | README, MCP_QUICKSTART, этот файл. |
+| **Manifest** (`.claude-plugin/plugin.json`) | Name, description, keywords for Claude Code and marketplace. |
+| **Skills** (3) | Teach the agent *when* and *how* to use AgentStack: 8DNA, projects, Rules Engine. |
+| **Documentation** | README, MCP_QUICKSTART, this file. |
 
-### Возможности через MCP (после настройки MCP)
+### Capabilities via MCP (after MCP setup)
 
-Плагин сам по себе не выполняет запросы к бэкенду — это делает **MCP-сервер AgentStack**. После добавления MCP в Claude Code агент получает доступ к инструментам, например:
+The plugin does not call the backend itself — the **AgentStack MCP server** does. After adding MCP in Claude Code the agent gets access to tools such as:
 
-- **Проекты:** создание (в т.ч. анонимное), список, детали, обновление, удаление, статистика, пользователи, настройки, активность, API-ключи, привязка анонимного проекта к пользователю.
-- **Логика и правила:** создание/обновление/удаление правил, список, выполнение, процессоры, команды.
-- **Баффы:** создание, применение, продление, откат, отмена, список активных, эффективные лимиты, временные и постоянные эффекты.
-- **Платежи:** создание, статус, возврат, список транзакций, баланс.
-- **Auth:** быстрый вход, создание пользователя, назначение роли, профиль.
-- **Планировщик:** создание/отмена/получение/список задач и др.
-- **Аналитика:** использование, метрики.
-- **API-ключи:** создание, список, отзыв и др.
-- **Webhooks, уведомления, кошельки** — по мере реализации на бэкенде и в MCP.
+- **Projects:** create (including anonymous), list, details, update, delete, stats, users, settings, activity, API keys, attach anonymous project to user.
+- **Logic and rules:** create/update/delete rules, list, execute, processors, commands.
+- **Buffs:** create, apply, extend, rollback, cancel, list active, effective limits, temporary and persistent effects.
+- **Payments:** create, status, refund, list transactions, balance.
+- **Auth:** quick sign-in, create user, assign role, profile.
+- **Scheduler:** create/cancel/get/list tasks, etc.
+- **Analytics:** usage, metrics.
+- **API keys:** create, list, revoke, etc.
+- **Webhooks, notifications, wallets** — as implemented on backend and in MCP.
 
-Точный список инструментов и их параметры: **MCP_SERVER_CAPABILITIES** в репозитории AgentStack или `GET https://agentstack.tech/mcp/tools` (с `X-API-Key`).
+Full tool list and parameters: **MCP_SERVER_CAPABILITIES** in the AgentStack repo or `GET https://agentstack.tech/mcp/tools` (with `X-API-Key`).
 
-### Возможности Skills
+### Skills capabilities
 
-- **agentstack-8dna:** проектирование и запросы к данным с иерархией (`parent_uuid`) и эволюцией (`generation`), работа со структурой `data`/`config`/`protected` и genetic coding.
-- **agentstack-projects:** создание и управление проектами и API-ключами через MCP, анонимные проекты, привязка к пользователю.
-- **agentstack-rules-engine:** настройка серверной логики без кода (when/do), использование Logic Engine и правил через MCP, связка с баффами и командами.
+- **agentstack-8dna:** design and query data with hierarchy (`parent_uuid`) and evolution (`generation`), work with `data`/`config`/`protected` structure and genetic coding.
+- **agentstack-projects:** create and manage projects and API keys via MCP, anonymous projects, attach to user.
+- **agentstack-rules-engine:** configure server logic without code (when/do), use Logic Engine and rules via MCP, link with buffs and commands.
 
-### Итог
+### Summary
 
-- **Проверка:** установить плагин → настроить MCP с API key → в чате попросить создать/показать проекты и проверить вызовы MCP; при необходимости проверить применение Skills по поведению.
-- **Возможности:** доступ к 60+ MCP-инструментам AgentStack (проекты, логика, баффы, платежи, auth, планировщик, аналитика и др.), плюс три Skills для согласованной работы с 8DNA, проектами и Rules Engine.
+- **Testing:** install plugin → configure MCP with API key → in chat ask to create/list projects and verify MCP calls; optionally verify Skills from behavior.
+- **Capabilities:** access to 60+ AgentStack MCP tools (projects, logic, buffs, payments, auth, scheduler, analytics, etc.), plus three Skills for consistent use of 8DNA, projects, and Rules Engine.
