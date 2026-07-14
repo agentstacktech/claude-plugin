@@ -1,6 +1,7 @@
 ---
 name: agentstack-payments
 description: Creates and manages payments, refunds, balance, and transactions in AgentStack via MCP (payments.*, wallets.*). Use when the user asks about payment, pay, refund, balance, transactions, stripe, tochka, wallet, or accepting money.
+disable-model-invocation: false
 ---
 
 # AgentStack Payments & Wallets
@@ -24,8 +25,8 @@ Enables creating payments, checking status, refunds, and viewing balance and tra
 
 | Tool | Purpose |
 |------|--------|
-| `payments.create_payment` | Create a payment (amount, currency, payment_method, description). |
-| `payments.get_status` | Get payment status by payment_id. |
+| `payments.create` | Create a payment (amount, currency, payment_method, description). |
+| `payments.get` | Get payment status/details by payment_id. |
 | `payments.refund` | Refund a payment (full or partial amount). |
 | `payments.list_transactions` | List transactions (limit, offset). |
 | `payments.get_balance` | Get balance. |
@@ -34,26 +35,26 @@ Enables creating payments, checking status, refunds, and viewing balance and tra
 | `wallets.create_wallet` | Create wallet (project_id, name, type, currency). |
 | `wallets.update_wallet` | Update wallet (wallet_id, wallet_data). |
 
-For full parameters, see **MCP_SERVER_CAPABILITIES** (repo docs). Payment widget config: PATCH project data `config.payment_widget` (see PAYMENT_GATEWAY_ECOSYSTEM, PAYMENTS_DEVELOPER_GUIDE).
+For full parameters, see **MCP_CAPABILITY_MATRIX** (repo docs). Payment widget config: PATCH project data `config.payment_widget` (see PAYMENT_GATEWAY_ECOSYSTEM, PAYMENTS_DEVELOPER_GUIDE).
 
 ## Instructions
 
-1. **Create payment:** Use `payments.create_payment` with amount, currency, payment_method, optional description.
-2. **Check status:** Use `payments.get_status` with payment_id.
+1. **Create payment:** Use `payments.create` with amount, currency, payment_method, optional description.
+2. **Check status:** Use `payments.get` with payment_id.
 3. **Refund:** Use `payments.refund` with payment_id; optional amount for partial refund.
 4. **Balance / transactions:** Use `payments.get_balance` and `payments.list_transactions` for payment context; use `wallets.get_balance` and `wallets.list_transactions` when working with a specific project wallet.
 5. **Widget config:** Payment widget (AgentPay) is configured per project via `data.config.payment_widget`; write via PATCH project data (see repo docs).
 
 ## Examples (natural language → tool)
 
-- "Create a 10 USD payment" → `payments.create_payment` with amount 10, currency "USD", payment_method as required.
-- "Status of payment X" → `payments.get_status` with payment_id.
+- "Create a 10 USD payment" → `payments.create` with amount 10, currency "USD", payment_method as required.
+- "Status of payment X" → `payments.get` with payment_id.
 - "Refund payment X" → `payments.refund` with payment_id.
 - "Balance for project 1025" → `wallets.get_balance` with project_id 1025 (or payments.get_balance as per API).
 - "List last 20 transactions" → `payments.list_transactions` or `wallets.list_transactions` with limit 20.
 
 ## References
 
-- **MCP_SERVER_CAPABILITIES** — payments.* and wallets.* tools and parameters. See repo docs/MCP_SERVER_CAPABILITIES.md.
+- **MCP_CAPABILITY_MATRIX** — payments.* and wallets.* tools and parameters. See repo docs/MCP_CAPABILITY_MATRIX.md.
 - **PAYMENT_GATEWAY_ECOSYSTEM**, **PAYMENTS_DEVELOPER_GUIDE** (repo) — gateway, widget, config.
 - **MCP_QUICKSTART.md** (plugin root) — how to get an API key and add MCP in Claude Code.

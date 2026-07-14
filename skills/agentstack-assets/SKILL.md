@@ -1,6 +1,7 @@
 ---
 name: agentstack-assets
 description: Manages AgentStack assets (create, get, list, update) via MCP (assets.*). Use when the user needs in-game items, tradable assets, inventory, digital goods, or project-specific asset catalogs for games, marketplaces, or other applications.
+disable-model-invocation: false
 ---
 
 # AgentStack Assets & Trading
@@ -28,7 +29,7 @@ Enables creating and managing **assets** (digital goods, in-game items, tradable
 | `assets.list` | List assets (filter by project, type, or other criteria as supported). |
 | `assets.update` | Update asset metadata or state. |
 
-For full parameters and response shapes, see **MCP_SERVER_CAPABILITIES** (repo docs).
+For full parameters and response shapes, see **MCP_CAPABILITY_MATRIX** (repo docs).
 
 ## Instructions
 
@@ -46,6 +47,6 @@ For full parameters and response shapes, see **MCP_SERVER_CAPABILITIES** (repo d
 
 ## References
 
-- **MCP_SERVER_CAPABILITIES** — full list of MCP tools including `assets.*`, `wallets.*`, `buffs.*`, `logic.*`. See repo docs/MCP_SERVER_CAPABILITIES.md.
+- **MCP_CAPABILITY_MATRIX** — full list of MCP tools including `assets.*`, `wallets.*`, `buffs.*`, `logic.*`. See repo docs/MCP_CAPABILITY_MATRIX.md.
 - **Wallets** — real-money balance and transactions; use with assets for paid marketplaces.
 - **MCP_QUICKSTART.md** (plugin root) — how to get an API key and add MCP in Claude Code.

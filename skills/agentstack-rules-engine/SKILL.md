@@ -1,6 +1,7 @@
 ---
 name: agentstack-rules-engine
 description: Configures server-side logic without code using AgentStack Logic Engine and Rules (when/do, processors, commands). Use when the user wants event-driven rules, triggers, automations, or "when X then Y" behavior.
+disable-model-invocation: false
 ---
 
 # AgentStack Rules Engine
@@ -65,5 +66,5 @@ Define **when** (conditions / events) and **do** (actions: processors, commands)
 ## References
 
 - **Backend API:** Logic Engine at `/api/logic`; events at `/api/neural`. See backend routes in the AgentStack repo.
-- **MCP:** `logic.*`, `rules.*`, `commands.*`, `processors.*` in **MCP_SERVER_CAPABILITIES** (repo docs/MCP_SERVER_CAPABILITIES.md).
+- **MCP:** `logic.*`, `rules.*`, `commands.*`, `processors.*` in **MCP_CAPABILITY_MATRIX** (repo docs/MCP_CAPABILITY_MATRIX.md).
 - **Buffs:** Use `buffs.*` tools for trials, subscriptions, and effects triggered by rules.

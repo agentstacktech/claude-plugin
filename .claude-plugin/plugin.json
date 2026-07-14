@@ -1,11 +1,26 @@
 {
   "name": "agentstack",
-  "description": "Full backend ecosystem for Claude Code: 8DNA hierarchical data, Rules Engine, Buffs (trials/subscriptions), Payments, 60+ MCP tools (Projects, Auth, Scheduler, Analytics, Webhooks, Notifications, Wallets). More than a database — unified JSON + DNA architecture, server-side logic without boilerplate.",
-  "version": "0.4.0",
+  "description": "Full backend and hosting for Claude Code: publish static sites (/s/), Storage, 8DNA, Logic, Buffs, payments, Agents Fleet, RAG, messenger — one MCP tool (agentstack.execute). Live catalog via GET /mcp/actions.",
+  "version": "0.4.14",
   "author": {
-    "name": "AgentStack"
+    "name": "AgentStack",
+    "email": "support@agentstack.tech"
   },
   "license": "MIT",
-  "keywords": ["8dna", "rules-engine", "payments", "mcp", "backend", "buffs", "projects", "ecosystem", "agentstack"],
-  "repository": "https://github.com/agentstacktech/claude-plugin"
+  "keywords": [
+    "8dna",
+    "rules-engine",
+    "payments",
+    "mcp",
+    "backend",
+    "hosting",
+    "buffs",
+    "projects",
+    "storage",
+    "ecosystem",
+    "agentstack"
+  ],
+  "repository": "https://github.com/agentstacktech/claude-plugin",
+  "homepage": "https://agentstack.tech",
+  "support": "https://agentstack.tech/support"
 }

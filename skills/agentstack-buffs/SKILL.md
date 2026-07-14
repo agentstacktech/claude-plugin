@@ -1,6 +1,7 @@
 ---
 name: agentstack-buffs
 description: Manages trials, subscriptions, and temporary or persistent effects in AgentStack via MCP (buffs.*). Use when the user asks about trials, promos, subscriptions, purchases, limits, applying effects, or giving N days of premium.
+disable-model-invocation: false
 ---
 
 # AgentStack Buffs — Trials, Subscriptions, Effects
@@ -35,7 +36,7 @@ Enables managing **buffs** (temporary and persistent effects) via MCP tools unde
 | `buffs.apply_temporary_effect` | Apply a temporary effect in one step (create + apply). |
 | `buffs.apply_persistent_effect` | Apply a persistent effect in one step (create + apply). |
 
-For full parameters, see **MCP_SERVER_CAPABILITIES** (repo docs).
+For full parameters, see **MCP_CAPABILITY_MATRIX** (repo docs).
 
 ## Instructions
 
@@ -53,6 +54,6 @@ For full parameters, see **MCP_SERVER_CAPABILITIES** (repo docs).
 
 ## References
 
-- **MCP_SERVER_CAPABILITIES** — full list of buffs.* tools and parameters. See repo docs/MCP_SERVER_CAPABILITIES.md.
+- **MCP_CAPABILITY_MATRIX** — full list of buffs.* tools and parameters. See repo docs/MCP_CAPABILITY_MATRIX.md.
 - **Rules Engine skill** — use when/then rules to trigger buffs on events (e.g. signup → apply_temporary_effect).
 - **MCP_QUICKSTART.md** (plugin root) — how to get an API key and add MCP in Claude Code.

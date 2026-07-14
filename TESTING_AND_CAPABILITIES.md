@@ -18,21 +18,32 @@
 
 The plugin provides Skills, but **calls to projects, logic, buffs, etc. go through MCP**. Without MCP configured, tools will not be called.
 
-1. **Get an API key**  
-   - Via curl (anonymous project):
-     ```bash
-     curl -X POST https://agentstack.tech/mcp/tools/projects.create_project_anonymous \
-       -H "Content-Type: application/json" \
-       -d '{"tool": "projects.create_project_anonymous", "params": {"name": "Test"}}'
-     ```
-   - From the response take `project_api_key` or `user_api_key`.
-
-2. **Add MCP server in Claude Code**  
+1. **Preferred: OAuth Device Code**  
+   Run `/agentstack:login`, approve in the browser, then add MCP with the returned Bearer token:
    ```bash
-   claude mcp add --transport http agentstack https://agentstack.tech/mcp --header "X-API-Key: YOUR_KEY"
+   claude mcp add agentstack --transport http https://agentstack.tech/mcp \
+     --header "Authorization: Bearer <access_token>" \
+     --header "Content-Type: application/json"
    ```
 
-3. Restart Claude Code if needed.
+2. **Fallback: API key**  
+   Create an anonymous project/API key and configure:
+   ```bash
+   claude mcp add agentstack --transport http https://agentstack.tech/mcp \
+     --header "X-API-Key: YOUR_KEY" \
+     --header "Content-Type: application/json"
+   ```
+
+3. Verify:
+   ```bash
+   claude mcp list
+   /mcp
+   ```
+
+4. Reload plugins after local edits:
+   ```text
+   /reload-plugins
+   ```
 
 Details: [MCP_QUICKSTART.md](MCP_QUICKSTART.md).
 
@@ -51,16 +62,16 @@ If the agent calls MCP tools and returns a sensible answer — the plugin and MC
 
 ### 4. Checking Skills
 
-- **Skills** are picked up by Claude Code and available under the plugin namespace (e.g. `/agentstack:agentstack-8dna`, `/agentstack:agentstack-projects`, `/agentstack:agentstack-rules-engine`). Run `/help` to see the list. The agent uses them by task context (8DNA, projects, Rules Engine).
+- **Skills** are picked up by Claude Code and available under the plugin namespace (e.g. `/agentstack:agentstack-8dna`, `/agentstack:agentstack-projects`, `/agentstack:agentstack-rules-engine`, `/agentstack:agentstack-payments`, `/agentstack:agentstack-auth`). Run `/help` and `/reload-plugins` after local edits. The plugin ships 8 skills.
 
 ### 5. Common issues
 
 | Symptom | What to check |
 |--------|----------------|
-| Agent does not call MCP | MCP added via `claude mcp add`, correct URL and `X-API-Key` header, Claude Code restarted if needed. |
+| Agent does not call MCP | MCP added via `claude mcp add`, correct URL and `Authorization` or `X-API-Key` header, `claude mcp list` shows `agentstack`. |
 | 401 / 403 on call | Key is valid, not expired; some operations require a subscription (e.g. Professional for add_user). |
-| "Tool not found" | Tool name matches documentation (e.g. `projects.create_project_anonymous`). Check list: `GET https://agentstack.tech/mcp/tools` (with `X-API-Key` header). |
-| Skills not visible | Plugin is loaded (`--plugin-dir` or installed from marketplace). Check `/help` and namespace (e.g. `agentstack:agentstack-8dna`). |
+| "Tool not found" | Tool name matches `docs/MCP_CAPABILITY_MATRIX.md` or `GET https://agentstack.tech/mcp/actions`. |
+| Skills not visible | Plugin is loaded (`--plugin-dir` or installed from marketplace). Run `/reload-plugins`; check `/help` and namespace (e.g. `/agentstack:agentstack-8dna`). |
 
 ---
 
@@ -71,7 +82,8 @@ If the agent calls MCP tools and returns a sensible answer — the plugin and MC
 | Component | Purpose |
 |-----------|------------|
 | **Manifest** (`.claude-plugin/plugin.json`) | Name, description, keywords for Claude Code and marketplace. |
-| **Skills** (3) | Teach the agent *when* and *how* to use AgentStack: 8DNA, projects, Rules Engine. |
+| **Skills** (8) | Teach the agent *when* and *how* to use AgentStack: 8DNA, projects, Rules Engine, auth, RBAC, payments, buffs, assets. |
+| **Commands** (`commands/agentstack-login.md`) | Device Code login and Claude MCP setup instructions. |
 | **Documentation** | README, MCP_QUICKSTART, this file. |
 
 ### Capabilities via MCP (after MCP setup)
@@ -81,22 +93,35 @@ The plugin does not call the backend itself — the **AgentStack MCP server** do
 - **Projects:** create (including anonymous), list, details, update, delete, stats, users, settings, activity, API keys, attach anonymous project to user.
 - **Logic and rules:** create/update/delete rules, list, execute, processors, commands.
 - **Buffs:** create, apply, extend, rollback, cancel, list active, effective limits, temporary and persistent effects.
-- **Payments:** create, status, refund, list transactions, balance.
-- **Auth:** quick sign-in, create user, assign role, profile.
+- **Payments:** create, get, refund, list transactions, balance.
+- **Auth:** login, register, assign role, profile.
 - **Scheduler:** create/cancel/get/list tasks, etc.
 - **Analytics:** usage, metrics.
-- **API keys:** create, list, revoke, etc.
+- **API keys:** create, list, delete, etc.
 - **Webhooks, notifications, wallets** — as implemented on backend and in MCP.
 
-Full tool list and parameters: **MCP_SERVER_CAPABILITIES** in the AgentStack repo or `GET https://agentstack.tech/mcp/tools` (with `X-API-Key`).
+Full tool list and parameters: generated **MCP_CAPABILITY_MATRIX** in the AgentStack repo or `GET https://agentstack.tech/mcp/actions`.
 
 ### Skills capabilities
 
 - **agentstack-8dna:** design and query data with hierarchy (`parent_uuid`) and evolution (`generation`), work with `data`/`config`/`protected` structure and genetic coding.
 - **agentstack-projects:** create and manage projects and API keys via MCP, anonymous projects, attach to user.
 - **agentstack-rules-engine:** configure server logic without code (when/do), use Logic Engine and rules via MCP, link with buffs and commands.
+- **agentstack-auth:** login, register, profile, session.
+- **agentstack-rbac:** roles, permissions, membership.
+- **agentstack-payments:** payments, refunds, balance, transactions.
+- **agentstack-buffs:** trials, subscriptions, temporary/persistent effects.
+- **agentstack-assets:** assets, inventory, digital goods.
 
 ### Summary
 
-- **Testing:** install plugin → configure MCP with API key → in chat ask to create/list projects and verify MCP calls; optionally verify Skills from behavior.
-- **Capabilities:** access to 60+ AgentStack MCP tools (projects, logic, buffs, payments, auth, scheduler, analytics, etc.), plus three Skills for consistent use of 8DNA, projects, and Rules Engine.
+- **Testing:** install plugin → run `/reload-plugins` → configure MCP via Device Code or API key → verify `claude mcp list` and `/mcp` → ask to create/list projects and verify MCP calls.
+- **Capabilities:** access to the live AgentStack MCP action catalog (projects, logic, buffs, payments, auth, scheduler, analytics, agents, storage, support, etc.), plus eight Skills for consistent use of 8DNA, projects, Rules Engine, auth, RBAC, payments, buffs, and assets.
+
+## Latest Local Smoke Snapshot
+
+2026-05-11:
+
+- `node provided_plugins/scripts/validate-all-plugins.mjs` — passed with 3 warnings for Cursor placeholder screenshots.
+- Claude manifest and eight-skill count were checked by the shared validator.
+- Manual runtime checks still require Claude Code: `/reload-plugins`, `/agentstack:login`, `claude mcp list`, and `/mcp`.

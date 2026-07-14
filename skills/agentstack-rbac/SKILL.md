@@ -1,6 +1,7 @@
 ---
 name: agentstack-rbac
 description: Manages roles and permissions (RBAC) in AgentStack via MCP and API. Use when the user asks about roles, permissions, access control, who can do what, assigning roles, checking permissions, or project membership and role updates.
+disable-model-invocation: false
 ---
 
 # AgentStack RBAC — Roles and Permissions
@@ -30,7 +31,7 @@ Enables managing **role-based access control** (RBAC) in AgentStack: assigning r
 | `projects.update_user_role` | Change a user's role in the project. | — |
 | `projects.remove_user` | Remove user from project (revoke access). | — |
 
-Full RBAC (create_role, list_roles, check_permission) may be available via backend API; see **MCP_SERVER_CAPABILITIES** and RBAC docs in the repo.
+Full RBAC (create_role, list_roles, check_permission) may be available via backend API; see **MCP_CAPABILITY_MATRIX** and RBAC docs in the repo.
 
 ## Instructions
 
@@ -56,6 +57,6 @@ Full RBAC (create_role, list_roles, check_permission) may be available via backe
 
 ## References
 
-- **MCP_SERVER_CAPABILITIES** — auth.*, projects.get_users, projects.add_user, projects.update_user_role, projects.remove_user. See repo docs/MCP_SERVER_CAPABILITIES.md.
+- **MCP_CAPABILITY_MATRIX** — auth.*, projects.get_users, projects.add_user, projects.update_user_role, projects.remove_user. See repo docs/MCP_CAPABILITY_MATRIX.md.
 - **RBAC / Auth** — Backend API and SDK (create_role, list_roles, check_permission) as documented in the AgentStack repo.
 - **MCP_QUICKSTART.md** (plugin root) — how to get an API key and add MCP in Claude Code.

@@ -1,6 +1,7 @@
 ---
 name: agentstack-8dna
 description: Applies AgentStack 8DNA (JSON+): structured JSON data model with built-in support for variants (e.g. A/B tests). Use when the user mentions data store, database, structured data, A/B tests, experiments, or design of AgentStack data (data/config/protected).
+disable-model-invocation: false
 ---
 
 # AgentStack 8DNA — JSON+ (Structured JSON and Built-in Variants)
