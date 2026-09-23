@@ -1,100 +1,70 @@
 # AgentStack — Full Backend Ecosystem (Claude Code Plugin)
 
-Plugin for [Claude Code](https://code.claude.com) that adds **AgentStack** as a full backend ecosystem: 8DNA hierarchical data, Rules Engine, Buffs (trials/subscriptions), Payments, and one MCP tool (`agentstack.execute`) backed by the live `/mcp/actions` catalog for Projects, Auth, Scheduler, Analytics, Webhooks, Notifications, Wallets, Agents, Storage, Support, and more.
-
-JSON-based data store (8DNA: JSON+ with built-in variants, e.g. A/B tests) and server-side logic without boilerplate.
-
-## What this plugin includes
-
-| Component | Description |
-|-----------|-------------|
-| **Skills** | 8DNA, Projects, Rules Engine, **Assets**, **RBAC**, **Buffs** (trials, subscriptions), **Payments** (payments, wallets), **Auth** (login, profile) — so the agent knows when and how to use AgentStack. |
-| **MCP setup guide** | How to connect Claude Code to the AgentStack MCP. |
+Plugin for [Claude Code](https://code.claude.com): 8DNA data, Logic Engine, Buffs, payments, hosting, Agents Fleet, RAG, messenger — one MCP tool (`agentstack.execute`) backed by the live `GET /mcp/actions` catalog.
 
 ## Quick Start
 
-**Flow:** Create an anonymous project (no account) → get API key or OAuth Bearer → add it in Claude Code → use `agentstack.execute` with the live action catalog in chat. See [MCP_QUICKSTART.md](MCP_QUICKSTART.md).
+1. **Install** the plugin (marketplace or `claude --plugin-dir .`).
+2. **Sign in:** `/agentstack:login` or `node scripts/device-login.mjs --scope-preset=full`
+3. **Configure MCP** with the printed `claude mcp add agentstack …` command.
+4. **Verify:** `claude mcp list` and `/mcp`
 
-1. **Get an API key**  
-   Create an anonymous project (no signup) via curl or use your existing project key. See [MCP_QUICKSTART.md](MCP_QUICKSTART.md).
+Details: [MCP_QUICKSTART.md](MCP_QUICKSTART.md)
 
-2. **Add MCP in Claude Code**  
-   Run once (replace with your API key):
-   ```bash
-   claude mcp add --transport http agentstack https://agentstack.tech/mcp --header "X-API-Key: YOUR_API_KEY"
-   ```
-   Full steps are in [MCP_QUICKSTART.md](MCP_QUICKSTART.md).
+## What's included
 
-3. **Use in chat**  
-   Ask Claude Code to create a project, list projects, get stats, or use other AgentStack tools. The agent will use the MCP tools automatically.
+| Layer | Count | Notes |
+|-------|------:|-------|
+| **Skills** | 29 mirrored + 1 prefer | Gen3 domain routers synced from Cursor SoT |
+| **Commands** | 7 | login, status, init, diagnose, discover, safe-cycle |
+| **Agents** | 3 | architect, migrator, tenant-builder |
 
-## What you can do
+### Domain skills (gen3)
 
-Once MCP is connected, use one tool (`agentstack.execute`) with the live generated action catalog from chat. Example prompts by domain:
+`agentstack-data`, `agentstack-logic`, `agentstack-auth-rbac`, `agentstack-commerce`, `agentstack-commerce-assets`, `agentstack-projects`, `agentstack-hosting`, `agentstack-rag`, `agentstack-agents-ai`, `agentstack-bots`, `agentstack-crm`, `agentstack-messenger`, `agentstack-support`, `agentstack-integrations`, `agentstack-signals`, `agentstack-storage`, `agentstack-sdk`, `agentstack-discovery`, `agentstack-guidance`, `agentstack-agentnet`, `agentstack-business`, `agentstack-capability-tasks`, `agentstack-hosted-vertical`, `agentstack-knowledge`, `agentstack-messaging`, `agentstack-openapi`, `agentstack-project-wallet`, `agentstack-services`, `agentstack-storefront-studio`, plus Claude-only **`agentstack-prefer`** (MCP-first router).
 
-| Domain | Example prompts |
-|--------|-----------------|
-| **Projects** | "List my projects", "Get stats for my project", "Create a project named Test" |
-| **8DNA / Data** | "Store project data at key config.theme", "Read user data" |
-| **Rules Engine** | "Create a rule when user signs up", "List logic rules" |
-| **Buffs** | "Give user a 7-day trial", "List active buffs" |
-| **Payments** | "Create a payment", "Get wallet balance" |
-| **Auth** | "Get my profile", "Quick auth with email" |
-| **Scheduler, Analytics, Webhooks, Notifications, Wallets** | "Schedule a task", "Get analytics", "List webhooks" |
-
-**Full tool list and parameters:** [MCP_CAPABILITY_MATRIX](https://github.com/agentstacktech/AgentStack/blob/master/docs/MCP_CAPABILITY_MATRIX.md). **When to use which tool:** [CONTEXT_FOR_AI](https://github.com/agentstacktech/AgentStack/blob/master/docs/plugins/CONTEXT_FOR_AI.md) in the AgentStack repo.
-
-## AgentStack vs “just a database”
-
-| Capability | AgentStack | Typical DB-only (e.g. Supabase-style) |
-|------------|------------|----------------------------------------|
-| **Data model** | 8DNA (JSON+): structured JSON; key-value store (`project.data`, `user.data`); built-in support for variants (e.g. A/B tests) | Flat tables, relations |
-| **Server logic** | Rules Engine (when/do, no code) | Triggers / custom backend |
-| **Trials & subscriptions** | Buffs (temporary/persistent effects) | Custom logic or 3rd party |
-| **Payments** | Built-in gateway (Stripe, Tochka, etc.) | Separate integration |
-| **API surface** | One MCP tool (`agentstack.execute`) with a generated action catalog + /api/projects, /api/logic, /api/neural, /api/buffs, etc. | CRUD + auth |
-
-AgentStack is a full backend platform with a JSON-based data store (8DNA = JSON+ with built-in variants, e.g. A/B tests); this plugin brings it into Claude Code so the AI can create projects, manage keys, use the Rules Engine, and work with the data store.
+Legacy gen1 folders (`agentstack-8dna`, `agentstack-payments`, …) are retired.
 
 ## Plugin structure
 
 ```
-.claude-plugin/plugin.json   # Manifest
-MCP_QUICKSTART.md            # Get API key + connect Claude Code
+.claude-plugin/
+  plugin.json
+  marketplace.json
+commands/
 skills/
-  agentstack-8dna/           # 8DNA (JSON+, data store, variants/A/B)
-  agentstack-projects/       # Projects & MCP tools
-  agentstack-rules-engine/   # Rules Engine usage
-  agentstack-assets/         # Assets (trading, games, inventory)
-  agentstack-rbac/            # RBAC (roles, permissions)
-  agentstack-buffs/            # Buffs (trials, subscriptions, effects)
-  agentstack-payments/         # Payments & wallets
-  agentstack-auth/              # Auth (login, register, profile)
+agents/
+scripts/
+  device-login.mjs
+  validate-plugin.mjs
+MCP_QUICKSTART.md
 ```
 
 ## Requirements
 
-- Claude Code version 1.0.33 or later (run `claude --version` to check).
+- Claude Code 1.0.33+ (`claude --version`)
 
 ## Local development
 
-To load the plugin from the repo without installing: `claude --plugin-dir ./provided_plugins/claude-plugin` (from repo root) or `claude --plugin-dir .` (from this folder). Skills will appear under the `agentstack` namespace (e.g. `/agentstack:agentstack-8dna`). You still need to add the MCP server separately (see MCP_QUICKSTART.md).
+From repo root:
+
+```bash
+claude --plugin-dir ./provided_plugins/claude-plugin
+```
+
+Skills appear under the `agentstack` namespace (e.g. `/agentstack:agentstack-data`). MCP is configured separately — see MCP_QUICKSTART.md.
 
 ## Documentation
 
-- **This plugin:** [github.com/agentstacktech/claude-plugin](https://github.com/agentstacktech/claude-plugin)
-- **Quick Start:** [MCP_QUICKSTART.md](MCP_QUICKSTART.md) — API key and MCP setup in a few steps.
-- **Full MCP tool list:** [MCP_CAPABILITY_MATRIX](https://github.com/agentstacktech/AgentStack/blob/master/docs/MCP_CAPABILITY_MATRIX.md) in the AgentStack repo.
-- **Plugins index (Cursor, Claude, GPT, VS Code):** [docs/plugins/README.md](https://github.com/agentstacktech/AgentStack/blob/master/docs/plugins/README.md).
+- Plugin repo: [github.com/agentstacktech/claude-plugin](https://github.com/agentstacktech/claude-plugin)
+- Capability matrix: [docs/plugins/CAPABILITY_MATRIX.md](https://github.com/agentstacktech/AgentStack/blob/master/docs/plugins/CAPABILITY_MATRIX.public.md)
+- Plugins index: [docs/plugins/README.md](https://github.com/agentstacktech/AgentStack/blob/master/docs/plugins/README.md)
 
 ## Links
 
-- **AgentStack:** [agentstack.tech](https://agentstack.tech)
-- **LinkedIn:** [linkedin.com/company/agentstacktech](https://www.linkedin.com/company/agentstacktech/)
-- **GitHub:** [github.com/agentstacktech](https://github.com/agentstacktech)
+- [agentstack.tech](https://agentstack.tech)
+- [GitHub](https://github.com/agentstacktech)
 
-*For maintainers:* [TESTING_AND_CAPABILITIES.md](TESTING_AND_CAPABILITIES.md).
+*Maintainers:* [TESTING_AND_CAPABILITIES.md](TESTING_AND_CAPABILITIES.md) · [VERIFICATION_CHECKLIST.md](VERIFICATION_CHECKLIST.md)
 
-## License
-
-MIT. See [LICENSE](LICENSE).
+MIT — see [LICENSE](LICENSE).

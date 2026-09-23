@@ -1,6 +1,6 @@
 ---
 name: agentstack-discovery
-description: Use when the user asks where a feature lives in the UI, how to navigate AgentStack, Compass playbooks, Discover hub, or dev docs recipes. Prefer discovery manifest and UI registry over inventing routes.
+description: Use when the user asks where a feature lives in the UI, Discover hub routes, PAGES_MAP, or dev docs cookbook leaves. Prefer discovery manifest and UI registry — not Compass playbooks (see agentstack-guidance).
 ---
 
 # AgentStack Discovery & Compass
@@ -17,3 +17,7 @@ description: Use when the user asks where a feature lives in the UI, how to navi
 
 - Genes: `frontend.discovery.hub.gen1`, `frontend.platform.compass.gen1`, `frontend.docs.cookbook.gen1`
 - Map: `docs/dual-shell/NARRATIVE_COOKBOOK_MAP.md`
+
+## Live catalog
+
+Discover actions: `GET https://agentstack.tech/mcp/actions` or `GET /mcp/actions` + `agentstack.execute`. Do not hard-code action counts.

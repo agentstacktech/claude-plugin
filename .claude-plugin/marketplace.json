@@ -1,0 +1,19 @@
+{
+  "name": "agentstack-plugins",
+  "owner": {
+    "name": "AgentStack",
+    "email": "support@agentstack.tech",
+    "url": "https://agentstack.tech"
+  },
+  "plugins": [
+    {
+      "name": "agentstack",
+      "source": "./",
+      "description": "AgentStack backend for Claude Code — 8DNA, Logic, hosting, one MCP tool agentstack.execute. Live catalog GET /mcp/actions.",
+      "homepage": "https://agentstack.tech",
+      "repository": "https://github.com/agentstacktech/claude-plugin",
+      "license": "MIT",
+      "keywords": ["mcp", "8dna", "backend", "hosting", "agentstack"]
+    }
+  ]
+}

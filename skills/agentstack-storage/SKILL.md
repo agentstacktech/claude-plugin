@@ -22,4 +22,8 @@ description: Use when the user asks to upload files, list attachments, check sto
 ## References
 
 - Gene: `frontend.storage.ui.gen1`
-- Live catalog: `claude mcp` + live catalog
+- Live catalog: `GET /mcp/actions` + `agentstack.execute`
+
+## Live catalog
+
+Discover actions: `GET https://agentstack.tech/mcp/actions` or `GET /mcp/actions` + `agentstack.execute`. Do not hard-code action counts.

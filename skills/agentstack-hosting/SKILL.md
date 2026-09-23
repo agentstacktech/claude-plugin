@@ -15,9 +15,19 @@ description: Use when the user wants to publish a static site, deploy HTML or ZI
 | "import folder to site" | `hosting.storage.import_folder` | Re-upload all files |
 | "project hosting status" / "host sell scale ladder" | `hosting.project.status` | Multiple REST calls |
 | "what's next after publish" | `hosting.project.status` → `next_actions[0]` | Guessing module URLs |
+| "upgrade hosting quota" | PTC task hosting.upgrade · Compass `hosting-upgrade` | Delete files without wallet path |
+
+## Guidance (headless)
+
+```ts
+import { GuidanceClient } from '@agentstack/sdk/guidance';
+// const client = new GuidanceClient(sdk);
+// await client.compile({ playbookId: 'host-static-site', projectId });
+```
 
 ## Rules
 
+- **No `releases` MCP domain** — publish = `hosting.deploy_files` / `hosting.site.quick_start`; history/rollback = `hosting.release.list` / `hosting.release.promote` (aliases: `hosting.publish`, `releases.list`).
 - **Control panel:** `/dev/projects/{id}/storage/sites` (or `/user/...` for user shell) — not legacy `/hosting`.
 - **Canonical URL:** `/s/{project_id}/{bucket_name}/` — wait for `edge_ready` before telling the user the site is live.
 - Site bytes count toward the owner storage pool — check `storage.get_quota` first.
@@ -27,5 +37,5 @@ description: Use when the user wants to publish a static site, deploy HTML or ZI
 
 ## References
 
-- Live catalog: `GET https://agentstack.tech/mcp/actions` or `claude mcp` + live catalog.
+- Live catalog: `GET https://agentstack.tech/mcp/actions` or `GET /mcp/actions` + `agentstack.execute`.
 - Gene: `core.commerce.assets.presets.gen1` (related assets); hosting actions under `hosting.*`.

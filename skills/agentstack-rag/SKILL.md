@@ -11,7 +11,7 @@ Built-in retrieval-augmented generation. Ten actions cover collection management
 project's own **documentation** (markdown, ADRs, runbooks, handbooks,
 support KBs) is where RAG earns its keep. Source-code search is handled
 locally by Claude Code; uploading code to a hosted RAG duplicates that work and
-exposes proprietary source needlessly. The `claude mcp` + live catalog command
+exposes proprietary source needlessly. The `GET /mcp/actions` + `agentstack.execute` command
 enforces this by default.
 
 ## Actions (live catalog at `GET https://agentstack.tech/mcp/actions`, filter `rag.*`)
@@ -27,9 +27,10 @@ enforces this by default.
 |-------------------------------------------------------|-------------------------------------------------------------------|
 | "agent should remember the last few turns"            | `rag.memory_add` → `rag.memory_search` (no collection)            |
 | "ingest company docs and let agent search them"       | `rag.collection_create` → `rag.document_add` (batch) → `rag.search` |
-| "ground AI answers in our own project docs"           | `claude mcp` + live catalog then `rag.search(collection='my-project-docs')` |
+| "ground AI answers in our own project docs"           | `GET /mcp/actions` + `agentstack.execute` then `rag.search(collection='my-project-docs')` |
 | "find similar tickets"                                | `rag.search` with filter by `metadata.type='ticket'`              |
 | "remove stale document"                               | `rag.document_delete` by id                                       |
+| "tenant synthesis / crisis overlay for another project" | `knowledge.policy_templates.list` then `knowledge.policy_templates.apply` (8DNA via existing prompt/config PATCH) |
 | "semantic search over my source code"                 | **Use Claude Code's built-in code index** — do not upload source code to a hosted RAG. If you genuinely need it (unusual), build the collection manually, never via this plugin's commands. |
 
 ## Prefer-over
@@ -82,8 +83,8 @@ enforces this by default.
 
 ## References
 
-- Live action catalog (filter `rag.*`): `GET https://agentstack.tech/mcp/actions` or run `claude mcp` + live catalog.
-- Docs-index bootstrap command: `claude mcp` + live catalog (see `./../../commands/agentstack-index-docs.md`).
+- Live action catalog (filter `rag.*`): `GET https://agentstack.tech/mcp/actions` or run `GET /mcp/actions` + `agentstack.execute`.
+- Docs-index bootstrap command: `GET /mcp/actions` + `agentstack.execute` (see `./companion command in this plugin`).
 
 ## Triggers
 

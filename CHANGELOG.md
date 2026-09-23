@@ -1,23 +1,32 @@
 # Changelog
 
-All notable changes to the AgentStack Claude Code plugin will be documented in this file.
+All notable changes to the AgentStack Claude Code plugin.
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+## [0.4.18] — 2026-09-23
 
-## [0.4.0] - 2026-02-23
+### Fixed
 
-### Changed
-
-- Version aligned to global AgentStack 0.4.0.
-
-## [0.1.0] - 2026-02-23
+- Marketplace layout: `.claude-plugin/marketplace.json` with `source: "./"` (official Claude Code schema).
+- Removed invalid root `marketplace.json`.
 
 ### Added
 
-- Initial release for Claude Code.
-- Manifest `.claude-plugin/plugin.json` with name, description, version, author, license, keywords.
-- Three Skills: agentstack-8dna, agentstack-projects, agentstack-rules-engine (8DNA hierarchy & evolution, Projects & MCP tools, Rules Engine).
-- MCP_QUICKSTART.md: get API key, add MCP via `claude mcp add --transport http`.
-- README.md: what the plugin includes, Quick Start, capabilities table, plugin structure, requirements (Claude Code 1.0.33+).
-- TESTING_AND_CAPABILITIES.md: how to verify the plugin, MCP setup, chat checks, troubleshooting, capabilities overview.
+- `scripts/validate-plugin.mjs` and `scripts/device-login.mjs` (OAuth Device Code).
+- Claude-only skill `agentstack-prefer` (MCP-first router).
+- Commands: status, init, diagnose, discover, safe-cycle.
+- Agents: architect, migrator, tenant-builder.
+- `VERIFICATION_CHECKLIST.md`.
+
+### Changed
+
+- 29 gen3 domain skills synced from Cursor SoT (adaptSkillForClaude leak fixes).
+- Documentation refresh (README, TESTING, MARKETPLACE, MCP_QUICKSTART).
+- Version SoT: `plugin.json` only (no duplicate marketplace version).
+
+## [0.4.0] — 2026-02-23
+
+- Version aligned to global AgentStack 0.4.0.
+
+## [0.1.0] — 2026-02-23
+
+- Initial release: skills, MCP_QUICKSTART, README, TESTING.

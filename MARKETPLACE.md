@@ -1,24 +1,51 @@
 # Claude Code Marketplace Notes
 
-AgentStack ships as one Claude Code plugin with eight decision-first skills and an MCP setup guide.
+AgentStack ships as one Claude Code plugin with **29 gen3 mirrored skills**, **1 prefer router skill**, **7 commands**, and **3 agents**.
 
-## Marketplace File
+## Marketplace file
 
-Use `marketplace.json` at this folder root. It intentionally uses the simple string `source` form (`"."`) for compatibility with Claude Code clients that may not yet accept object-style marketplace sources.
+Official layout: [`.claude-plugin/marketplace.json`](.claude-plugin/marketplace.json) at the plugin root (not a root-level `marketplace.json`).
 
-## Install Test
+Plugin manifest: [`.claude-plugin/plugin.json`](.claude-plugin/plugin.json) — version SoT.
+
+## Validate locally
 
 ```bash
-claude plugin marketplace add agentstack ./marketplace.json
-claude plugin install agentstack@agentstack
-claude plugin list
+claude plugin validate .
+claude plugin validate . --strict
+node scripts/validate-plugin.mjs
 ```
 
-For remote distribution, host this folder in git and replace `source` with the hosted plugin path after testing against the target Claude Code release.
+## Install test
 
-## Release Checklist
+```bash
+claude plugin marketplace add ./provided_plugins/claude-plugin
+claude plugin install agentstack@agentstack-plugins
+claude plugin list
+/reload-plugins
+/mcp
+```
 
-- Bump `.claude-plugin/plugin.json` and `marketplace.json` versions together.
-- Run `/reload-plugins` after local install.
-- Run `/mcp` and `claude mcp list` after following `MCP_QUICKSTART.md`.
-- Confirm the eight skills appear under the AgentStack namespace.
+For GitHub distribution, users add the repo:
+
+```bash
+claude plugin marketplace add agentstacktech/claude-plugin
+claude plugin install agentstack@agentstack-plugins
+```
+
+## Community marketplace
+
+Submit via the in-app Claude Code community plugin form after:
+
+1. `claude plugin validate . --strict`
+2. `node provided_plugins/scripts/audit-claude-plugin.mjs` (from monorepo)
+3. Push to [github.com/agentstacktech/claude-plugin](https://github.com/agentstacktech/claude-plugin)
+
+See monorepo [docs/plugins/CLAUDE_PLUGIN_PUBLISH.md](../../docs/plugins/CLAUDE_PLUGIN_PUBLISH.md).
+
+## Release checklist
+
+- Bump `.claude-plugin/plugin.json` version (Lance order only) and sync CHANGELOG
+- Run `/reload-plugins` after local install
+- Run `/agentstack:login` → `claude mcp list` → `/mcp`
+- Confirm **30 skills** (29 mirror + prefer) under the `agentstack` namespace

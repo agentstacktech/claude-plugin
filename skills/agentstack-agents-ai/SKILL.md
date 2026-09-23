@@ -19,10 +19,11 @@ Use this skill for autonomous agents and generated application surfaces. Keep th
 
 ## Rules
 
-- First call discovery (`GET /mcp/actions` or `claude mcp` + live catalog) if an exact action name is uncertain.
+- First call discovery (`GET /mcp/actions` or `GET /mcp/actions` + `agentstack.execute`) if an exact action name is uncertain.
 - Prefer preview actions before persistence: `agents.template_preview`, `ai_builder.compose.preview`.
 - For destructive lifecycle changes (`agents.delete`, `agents.kill`), ask for confirmation and surface the trace id.
 - Do not invent agent metrics or run status. Use `agents.metrics` and `agents.traces`.
+- `agents.run` with `wait=true` is a **heavy** MCP step (same 60s sync-batch rule as `bots.simulate`). Do not wait on several runs in one sync execute.
 
 ## Example
 
@@ -39,11 +40,16 @@ Use this skill for autonomous agents and generated application surfaces. Keep th
 }
 ```
 
+## MCP guidance
+
+- **Catalog:** `GET https://agentstack.tech/mcp/actions` — filter `agents.*`, `ai_builder.*`, `generation.*`.
+- **Heavy runs:** `agents.run` with `wait=true` counts as one heavy LLM step per sync execute (see `agentstack_execute_budget`).
+- **Prompts:** `agentstack_agents_fleet` via `GET /mcp/prompts/get`.
+
 ## References
 
-- Live action catalog: `GET https://agentstack.tech/mcp/actions` or `claude mcp` + live catalog.
-- Backend index: `agentstack-core/services/AI_INDEX.md` (`core.agents.fleet.gen1`).
-- AI Builder index: `agentstack-core/ai_builder/INDEX.md`.
+- Live action catalog: `GET https://agentstack.tech/mcp/actions` or `GET /mcp/actions` + `agentstack.execute`.
+- Genetic tag: `core.agents.fleet.gen1` · `frontend.agents.surfaces.gen1`
 
 ## Triggers
 

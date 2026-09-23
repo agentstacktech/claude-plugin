@@ -1,7 +1,7 @@
 {
   "name": "agentstack",
   "description": "Full backend and hosting for Claude Code: publish static sites (/s/), Storage, 8DNA, Logic, Buffs, payments, Agents Fleet, RAG, messenger — one MCP tool (agentstack.execute). Live catalog via GET /mcp/actions.",
-  "version": "0.4.14",
+  "version": "0.4.18",
   "author": {
     "name": "AgentStack",
     "email": "support@agentstack.tech"

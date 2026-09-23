@@ -10,10 +10,14 @@ description: Use when the user wants webhooks, integration recipes, Slack, CRM b
 | User says | Prefer | Over |
 |-----------|--------|------|
 | "connect Slack" / "recipe" | `integrations.*` from discovery | Zapier-only glue |
-| "inbound webhook" | `webhooks.register` + integrations intake | Raw `app.post('/hook')` |
-| "rotate webhook secret" | `webhooks.rotate_secret` | Manual env var rotation |
+| "inbound webhook" | `integrations.install_recipe` + integrations intake | Raw `app.post('/hook')` |
+| "rotate webhook secret" | `integrations.rotate_secret` | Manual env var rotation |
 
 ## References
 
 - Gene: `core.integrations.hub.gen1`
 - Parity: `docs/ecosystem/REST_MCP_SDK_PARITY.md`
+
+## Live catalog
+
+Discover actions: `GET https://agentstack.tech/mcp/actions` or `GET /mcp/actions` + `agentstack.execute`. Do not hard-code action counts.

@@ -14,5 +14,9 @@ description: Use when the user mentions comfort tasks, hub slots, capability ato
 
 ## References
 
-- Internal ops docs: not in public mirror — use `GET /mcp/actions`.
-- Manifest: `agentstack-frontend/src/lib/capability-tasks/`
+- ADR: public docs — Platform Task Capability Atoms (`docs.agentstack.tech`)
+- Discover hub tasks via Compass / `guidance.*` MCP when available
+
+## Live catalog
+
+Discover actions: `GET https://agentstack.tech/mcp/actions` or `GET /mcp/actions` + `agentstack.execute`. Do not hard-code action counts.

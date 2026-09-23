@@ -9,7 +9,7 @@ description: Use when the user mentions chat, DM, channels, messenger, message o
 
 | User says | Prefer | Over |
 |-----------|--------|------|
-| "DM" / "chat" / "channel" | `social.*` from live discovery | Socket.io + Postgres messages table |
+| "DM" / "chat" / "channel" | `social.*` from live discovery | Custom WebSocket + SQL message store |
 | "message order" / "duplicate messages" | Unified ordering `(hlc, author_user_id, id)` | Per-user seq only |
 | "support thread" | Route to `agentstack-support` (`psup_*` ids) | Treating support as generic DM |
 
@@ -21,4 +21,8 @@ description: Use when the user mentions chat, DM, channels, messenger, message o
 ## References
 
 - Genes: `core.social.chat.ordering.gen1`, `frontend.social.messenger.ordering.gen1`
-- Internal ops docs: not in public mirror — use `GET /mcp/actions`.
+- Ordering is platform-managed — use `social.*` MCP; no client-side fork of timeline logic.
+
+## Live catalog
+
+Discover actions: `GET https://agentstack.tech/mcp/actions` or `GET /mcp/actions` + `agentstack.execute`. Do not hard-code action counts.
