@@ -22,6 +22,8 @@ All notable changes to the AgentStack Claude Code plugin.
 - 29 gen3 domain skills synced from Cursor SoT (adaptSkillForClaude leak fixes).
 - Documentation refresh (README, TESTING, MARKETPLACE, MCP_QUICKSTART).
 - Version SoT: `plugin.json` only (no duplicate marketplace version).
+- Manifest copy SoT in `canonicalCopy.mjs` (`PLUGIN_MANIFEST_CLAUDE`, `MARKETPLACE_ENTRY_CLAUDE`); validate-plugin enforces parity.
+- `formatClaudeMcpAddCommand` shared helper; status command uses `projects.get_projects` batch (no Cursor template placeholders).
 
 ## [0.4.0] — 2026-02-23
 

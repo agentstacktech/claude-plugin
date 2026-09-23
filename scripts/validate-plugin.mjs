@@ -7,6 +7,10 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
+import {
+  PLUGIN_MANIFEST_CLAUDE,
+  MARKETPLACE_ENTRY_CLAUDE,
+} from './lib/plugin-kernel/canonicalCopy.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
@@ -107,6 +111,17 @@ if (manifest) {
   if (manifest.version && !SEMVER.test(manifest.version)) fail('plugin.json: invalid semver');
   if (manifest.$schema !== undefined) fail('plugin.json: must not ship $schema');
   else ok(`plugin.json version ${manifest.version}`);
+  if (manifest.description !== PLUGIN_MANIFEST_CLAUDE.description) {
+    fail('plugin.json description drift — sync from canonicalCopy PLUGIN_MANIFEST_CLAUDE');
+  } else {
+    ok('plugin.json description matches canonicalCopy SoT');
+  }
+  if (HARD_CODED_ACTION_COUNT.test(manifest.description || '')) {
+    fail('plugin.json: hard-coded action count in description');
+  }
+  if (!/agentstack\.execute|GET \/mcp\/actions/i.test(manifest.description || '')) {
+    fail('plugin.json description must mention agentstack.execute or GET /mcp/actions');
+  }
 }
 
 if (marketplace) {
@@ -128,6 +143,11 @@ if (marketplace) {
     if (manifest?.version && entry.version !== manifest.version) {
       warn('marketplace entry version differs from plugin.json');
     }
+  }
+  if (entry?.description !== MARKETPLACE_ENTRY_CLAUDE.description) {
+    fail('marketplace entry description drift — sync from canonicalCopy MARKETPLACE_ENTRY_CLAUDE');
+  } else {
+    ok('marketplace description matches canonicalCopy SoT');
   }
 }
 

@@ -13,11 +13,13 @@ import {
   deviceCodeActivateUrl,
 } from './lib/plugin-kernel/deviceCodeClient.mjs';
 import { resolveScopePreset, SCOPE_PRESETS } from './lib/plugin-kernel/oauthScopePresets.mjs';
-import { MCP_RECOVERY_HINTS } from './lib/plugin-kernel/canonicalCopy.mjs';
+import {
+  formatClaudeMcpAddCommand,
+  MCP_RECOVERY_HINTS,
+} from './lib/plugin-kernel/canonicalCopy.mjs';
 
 const BASE_URL = process.env.AGENTSTACK_BASE_URL || 'https://agentstack.tech';
 const CLIENT_ID = 'claude-plugin';
-const MCP_URL = `${BASE_URL.replace(/\/$/, '')}/mcp`;
 
 function parseArgs(argv) {
   const out = { scopes: resolveScopePreset('full'), headless: false };
@@ -94,11 +96,7 @@ async function authorize(scopes, traceId) {
 
 function printMcpAddCommand(accessToken) {
   console.log('\nConfigure Claude Code MCP (run once):\n');
-  console.log(
-    `claude mcp add agentstack --transport http ${MCP_URL} ` +
-      `--header "Authorization: Bearer ${accessToken}" ` +
-      `--header "Content-Type: application/json"`,
-  );
+  console.log(formatClaudeMcpAddCommand({ baseUrl: BASE_URL, bearerToken: accessToken }));
   console.log('\nVerify: claude mcp list\n/mcp\n');
 }
 

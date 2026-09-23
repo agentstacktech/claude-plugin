@@ -1,6 +1,6 @@
-# AgentStack — Full Backend Ecosystem (Claude Code Plugin)
+# AgentStack — Backend, Hosting & MCP (Claude Code Plugin)
 
-Plugin for [Claude Code](https://code.claude.com): 8DNA data, Logic Engine, Buffs, payments, hosting, Agents Fleet, RAG, messenger — one MCP tool (`agentstack.execute`) backed by the live `GET /mcp/actions` catalog.
+Plugin for [Claude Code](https://code.claude.com): one MCP tool (`agentstack.execute`) for hosting (/s/), 8DNA, Logic Engine, buffs, payments, Agents Fleet, RAG, messenger — live catalog via `GET /mcp/actions`.
 
 ## Quick Start
 

@@ -1,6 +1,6 @@
 {
   "name": "agentstack",
-  "description": "Full backend and hosting for Claude Code: publish static sites (/s/), Storage, 8DNA, Logic, Buffs, payments, Agents Fleet, RAG, messenger — one MCP tool (agentstack.execute). Live catalog via GET /mcp/actions.",
+  "description": "One MCP tool (agentstack.execute) for the full AgentStack catalog — hosting (/s/), storage, 8DNA, logic, buffs, payments, Agents Fleet, RAG, messenger, integrations. Live capabilities from GET /mcp/actions. OAuth Device Code via scripts/device-login.mjs; skills, commands, and agents route Claude to the platform instead of custom backend glue.",
   "version": "0.4.18",
   "author": {
     "name": "AgentStack",
@@ -18,6 +18,8 @@
     "projects",
     "storage",
     "ecosystem",
+    "rag",
+    "agents",
     "agentstack"
   ],
   "repository": "https://github.com/agentstacktech/claude-plugin",

@@ -2,6 +2,8 @@
 
 > **Interactive setup:** [agentstack.tech/mcp-docs#clients?client=claude](https://agentstack.tech/mcp-docs#clients?client=claude)
 
+Catalog SoT: live `GET /mcp/actions` via one tool — `agentstack.execute` (no hard-coded action counts).
+
 ## Preferred: OAuth Device Code
 
 After installing the plugin:
@@ -10,7 +12,7 @@ After installing the plugin:
 node scripts/device-login.mjs --scope-preset=full
 ```
 
-Approve in the browser, then run the printed command:
+Approve in the browser, then run the printed command (or use this template after substituting your token):
 
 ```bash
 claude mcp add agentstack --transport http https://agentstack.tech/mcp \
