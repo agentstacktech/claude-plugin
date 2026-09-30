@@ -6,11 +6,15 @@ Catalog SoT: live `GET /mcp/actions` via one tool — `agentstack.execute` (no h
 
 ## Preferred: OAuth Device Code
 
+**Claude Code (CLI):** use Device Code with **full** scopes — not `readonly`/`builder` unless you intentionally want a capped catalog.
+
 After installing the plugin:
 
 ```bash
 node scripts/device-login.mjs --scope-preset=full
 ```
+
+**Claude web / connector apps:** use MCP **Connect** (browser OAuth at agentstack.tech) when the product offers it — same OAuth server as ChatGPT, not a separate scoped API key flow.
 
 Approve in the browser, then run the printed command (or use this template after substituting your token):
 
