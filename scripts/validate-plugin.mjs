@@ -96,7 +96,7 @@ if (fs.existsSync(path.join(ROOT, 'marketplace.json'))) {
   ok('no legacy root marketplace.json');
 }
 
-for (const rel of ['.claude-plugin/plugin.json', '.claude-plugin/marketplace.json', 'skills', 'MCP_QUICKSTART.md']) {
+for (const rel of ['.claude-plugin/plugin.json', '.claude-plugin/marketplace.json', '.mcp.json', 'skills', 'MCP_QUICKSTART.md']) {
   if (!fs.existsSync(path.join(ROOT, rel))) fail(`missing required path: ${rel}`);
   else ok(`present: ${rel}`);
 }
@@ -186,6 +186,22 @@ if (!fs.existsSync(path.join(ROOT, 'scripts/device-login.mjs'))) {
   fail('missing scripts/device-login.mjs');
 } else {
   ok('device-login script present');
+}
+
+const bundledMcp = readJson(path.join(ROOT, '.mcp.json'));
+const bundledServer = bundledMcp?.mcpServers?.agentstack;
+if (!bundledServer) {
+  fail('.mcp.json must declare mcpServers.agentstack');
+} else if (bundledServer.command || bundledServer.type === 'stdio') {
+  fail('.mcp.json must be a remote HTTP server, not stdio');
+} else if (!bundledServer.type || !['http', 'streamable-http'].includes(bundledServer.type)) {
+  fail('.mcp.json agentstack.type must be http (url without type is treated as stdio)');
+} else if (bundledServer.url !== 'https://agentstack.tech/mcp') {
+  fail('.mcp.json agentstack.url must be https://agentstack.tech/mcp');
+} else if (bundledServer.headers && Object.keys(bundledServer.headers).length > 0) {
+  fail('.mcp.json must not set fixed headers; Claude starts OAuth on 401 only when Authorization is absent');
+} else {
+  ok('.mcp.json is remote HTTP https://agentstack.tech/mcp');
 }
 
 if (process.argv.includes('--strict-cli')) {

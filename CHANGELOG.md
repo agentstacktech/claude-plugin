@@ -2,6 +2,12 @@
 
 All notable changes to the AgentStack Claude Code plugin.
 
+## [Unreleased]
+
+### Added
+
+- Root `.mcp.json` connects Claude Code to `https://agentstack.tech/mcp` with `type: http`. A URL without `type` is treated as local stdio and skipped. No fixed `Authorization` header, so Claude can start OAuth on 401. Device Code remains the bearer fallback.
+
 ## [0.4.18] — 2026-09-23
 
 ### Fixed

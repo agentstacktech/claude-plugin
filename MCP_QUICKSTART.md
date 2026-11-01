@@ -4,27 +4,41 @@
 
 Catalog SoT: live `GET /mcp/actions` via one tool — `agentstack.execute` (no hard-coded action counts).
 
-## Preferred: OAuth Device Code
+## Preferred: plugin remote server
 
-**Claude Code (CLI):** use Device Code with **full** scopes — not `readonly`/`builder` unless you intentionally want a capped catalog.
+Installing the plugin registers `.mcp.json`:
 
-After installing the plugin:
+| Field | Value |
+|-------|--------|
+| Transport | HTTP (`type: http`, Streamable HTTP) |
+| URL | `https://agentstack.tech/mcp` |
+
+A `url` without `type` is read as a local stdio server and skipped. This file sets `type`. It does not set an `Authorization` header, so Claude can start OAuth when the server returns 401.
+
+After install:
+
+```bash
+claude mcp list
+/mcp
+```
+
+Sign in in the browser when Claude asks. The same OAuth server is used by ChatGPT (`/mcp/.well-known/oauth-register`).
+
+## Fallback: Device Code bearer
+
+Use this when the browser OAuth prompt is unavailable. A configured `Authorization` header does not start Claude's OAuth flow.
 
 ```bash
 node scripts/device-login.mjs --scope-preset=full
 ```
 
-**Claude web / connector apps:** use MCP **Connect** (browser OAuth at agentstack.tech) when the product offers it — same OAuth server as ChatGPT, not a separate scoped API key flow.
-
-Approve in the browser, then run the printed command (or use this template after substituting your token):
+Approve in the browser, then run the printed command (or `/agentstack:login`):
 
 ```bash
 claude mcp add agentstack --transport http https://agentstack.tech/mcp \
   --header "Authorization: Bearer <access_token>" \
   --header "Content-Type: application/json"
 ```
-
-Or use the chat command `/agentstack:login`.
 
 ## Fallback: API key
 

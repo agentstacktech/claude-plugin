@@ -8,6 +8,12 @@ Use when the user needs first-time setup, re-login, project switching, or a wide
 
 ## Primary flow
 
+The plugin's `.mcp.json` already points at `https://agentstack.tech/mcp` with `type: http`. Ask the user to open `/mcp` and finish the browser sign-in. Do not add an `Authorization` header on that server: Claude starts OAuth only when that header is absent.
+
+## Fallback (Device Code bearer)
+
+Use this when the OAuth prompt is unavailable.
+
 1. From the plugin root, run:
 
 ```bash

@@ -26,6 +26,8 @@ claude plugin list
 /mcp
 ```
 
+`/mcp` should list `agentstack` from `.mcp.json` (`type: http`, `https://agentstack.tech/mcp`). Sign in there. Do not add a second local command server for the same URL.
+
 For GitHub distribution, users add the repo:
 
 ```bash

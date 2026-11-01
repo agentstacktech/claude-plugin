@@ -1,13 +1,12 @@
-# AgentStack — Backend, Hosting & MCP (Claude Code Plugin)
+# AgentStack — Work Graph MCP (Claude Code Plugin)
 
-Plugin for [Claude Code](https://code.claude.com): one MCP tool (`agentstack.execute`) for hosting (/s/), 8DNA, Logic Engine, buffs, payments, Agents Fleet, RAG, messenger — live catalog via `GET /mcp/actions`.
+Plugin for [Claude Code](https://code.claude.com): one MCP tool (`agentstack.execute`). Bound project starts at `agents.work_next`. Catalog search is fallback. Also hosting (/s/), storage, and payments.
 
 ## Quick Start
 
-1. **Install** the plugin (marketplace or `claude --plugin-dir .`).
-2. **Sign in:** `/agentstack:login` or `node scripts/device-login.mjs --scope-preset=full`
-3. **Configure MCP** with the printed `claude mcp add agentstack …` command.
-4. **Verify:** `claude mcp list` and `/mcp`
+1. **Install** the plugin (marketplace or `claude --plugin-dir .`). `.mcp.json` connects to `https://agentstack.tech/mcp` over HTTP.
+2. **Sign in** from `/mcp` when Claude opens OAuth. If that prompt is unavailable, use `/agentstack:login` (Device Code) and the printed `claude mcp add` command.
+3. **Verify:** `claude mcp list` and `/mcp`
 
 Details: [MCP_QUICKSTART.md](MCP_QUICKSTART.md)
 
@@ -31,6 +30,7 @@ Legacy gen1 folders (`agentstack-8dna`, `agentstack-payments`, …) are retired.
 .claude-plugin/
   plugin.json
   marketplace.json
+.mcp.json
 commands/
 skills/
 agents/
@@ -52,7 +52,7 @@ From repo root:
 claude --plugin-dir ./provided_plugins/claude-plugin
 ```
 
-Skills appear under the `agentstack` namespace (e.g. `/agentstack:agentstack-data`). MCP is configured separately — see MCP_QUICKSTART.md.
+Skills appear under the `agentstack` namespace (e.g. `/agentstack:agentstack-data`). The remote MCP server comes from `.mcp.json`. See MCP_QUICKSTART.md.
 
 ## Documentation
 
